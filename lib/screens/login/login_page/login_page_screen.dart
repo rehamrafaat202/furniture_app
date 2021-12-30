@@ -1,0 +1,123 @@
+import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/screens/home/home_screen.dart';
+import 'package:furniture_shop_app/screens/login/register_page/signup_page_screen.dart';
+import 'package:furniture_shop_app/shared_component_btw_screen.dart/container_button.dart';
+import 'package:furniture_shop_app/shared_component_btw_screen.dart/default_text_form.dart';
+
+class LoginPageScreen extends StatefulWidget {
+  const LoginPageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPageScreen> createState() => _LoginPageScreenState();
+}
+
+class _LoginPageScreenState extends State<LoginPageScreen> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.close)),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Login",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)
+                    // .copyWith(color: Colors.black, ),
+                    ),
+                const SizedBox(
+                  height: 100,
+                ),
+                defaultFormText(
+                  control: emailController,
+                  type: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Email can't be Empty";
+                    }
+                    return null;
+                  },
+                  label: "Email",
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                defaultFormText(
+                  control: passwordController,
+                  type: TextInputType.visiblePassword,
+                  onSubmit: (value) {
+                    if (formKey.currentState!.validate()) {
+                      print(emailController.text);
+                      print(passwordController.text);
+                    }
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Password is to short !";
+                    }
+                    return null;
+                  },
+                  label: "password",
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+                ContainerButton(
+                    color: const Color(0xff242A37),
+                    txtColor: Colors.white,
+                    Title: "LOGIN",
+                    submit: () {
+                      print("submit");
+
+                      if (formKey.currentState!.validate()) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
+                        print(passwordController.text);
+                      }
+                    }),
+                const SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have account yet ?"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const SignupPageScreen()));
+                      },
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff242A37)),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
