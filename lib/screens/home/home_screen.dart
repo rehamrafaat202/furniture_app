@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/screens/home/components/body.dart';
+import 'package:furniture_shop_app/screens/home/components/home_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,8 +20,8 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: Drawer(),
-      body: Body(),
+      drawer: const HomeDrawer(),
+      body: const Body(),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furniture_shop_app/screens/on_boarding/onboarding_screen.dart';
+import 'package:furniture_shop_app/screens/on_boarding/on_boarding_screen.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:furniture_shop_app/models/home_model.dart';
-import 'package:furniture_shop_app/screens/home/components/black_friday.dart';
+import 'package:furniture_shop_app/screens/home/components/best_selling_view.dart';
+
+import 'package:furniture_shop_app/screens/home/components/sales_view.dart';
+import 'package:furniture_shop_app/screens/home/components/collection.dart';
 import 'package:furniture_shop_app/screens/home/components/discover_list.dart';
-import 'package:furniture_shop_app/screens/home/components/trending.dart';
+import 'package:furniture_shop_app/screens/home/components/trending_products.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -12,13 +14,13 @@ class Body extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               "Discover",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             ),
             const SizedBox(
               height: 18.0,
@@ -27,37 +29,59 @@ class Body extends StatelessWidget {
             const SizedBox(
               height: 18.0,
             ),
-            Row(
-              children: [
-                const Text(
-                  "Trending",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                ),
-                const Spacer(),
-                InkWell(
-                  child: Row(
-                    children: const [
-                      Text("Show All",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          )),
-                      Icon(Icons.arrow_right)
-                    ],
-                  ),
-                )
-              ],
+            showAll(
+              title: "Trending",
             ),
             const SizedBox(
               height: 18.0,
             ),
-            TrendingWidget(),
+            const TrendingWidget(),
             const SizedBox(
-              height: 30.0,
+              height: 40.0,
             ),
-            BlackFriday()
+            // Collection(),
+            Collection(),
+            const SizedBox(
+              height: 18.0,
+            ),
+            showAll(
+              title: "Best Selling",
+            ),
+            const SizedBox(
+              height: 18.0,
+            ),
+            const BestSelling(),
+
+            const SizedBox(
+              height: 40.0,
+            ),
+            const BlackFriday()
           ],
         ),
       ),
+    );
+  }
+
+  Row showAll({title}) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+        ),
+        const Spacer(),
+        InkWell(
+          child: Row(
+            children: const [
+              Text("Show All",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+              Icon(Icons.arrow_right)
+            ],
+          ),
+        )
+      ],
     );
   }
 }
