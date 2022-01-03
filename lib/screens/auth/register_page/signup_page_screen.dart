@@ -142,7 +142,8 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()));
+                                        builder: (context) => HomeScreen(
+                                            email: emailController.text)));
                               } on FirebaseAuthException catch (e) {
                                 showDialog(
                                     context: context,
