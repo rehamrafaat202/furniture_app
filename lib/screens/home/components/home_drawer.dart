@@ -5,7 +5,8 @@ import 'package:furniture_shop_app/screens/filters/filter_screen.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({Key? key}) : super(key: key);
+  final String? email;
+  const HomeDrawer({this.email, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +47,8 @@ class HomeDrawer extends StatelessWidget {
                       const SizedBox(
                         height: 7.0,
                       ),
-                      const Text(
-                        "rehamrafaat202@gmail.com",
+                      Text(
+                        email!,
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
