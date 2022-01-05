@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/user_model.dart';
+import 'package:furniture_shop_app/repositry/auth_repositry.dart';
 import 'package:furniture_shop_app/screens/auth/register_page/signup_page_screen.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 import 'package:furniture_shop_app/style.dart';
@@ -17,9 +21,17 @@ class LoginPageScreen extends StatefulWidget {
 class _LoginPageScreenState extends State<LoginPageScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
   bool isloading = false;
+  UserModel? data;
+  void addLoading() {
+    setState(() {
+      isloading = false;
+    });
+  }
 
+  AuthRepositry repo = AuthRepositry();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +58,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                     children: [
                       const Text("Login",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30)
-                          // .copyWith(color: Colors.black, ),
-                          ),
+                              fontWeight: FontWeight.bold, fontSize: 30)),
                       const SizedBox(
                         height: 100,
                       ),
@@ -81,36 +91,30 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                         height: 100,
                       ),
                       ContainerButton(
-                        color: const Color(0xff242A37),
-                        txtColor: Colors.white,
-                        title: "LOGIN",
-                        submit: () async {
-                          if (formKey.currentState!.validate()) {
-                            setState(() {
-                              isloading = true;
-                            });
-                            try {
-                              await FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                      email: emailController.text,
-                                      password: passwordController.text);
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
-                                  (Route<dynamic> route) => false);
-                            } on FirebaseAuthException catch (e) {
+                          color: const Color(0xff242A37),
+                          txtColor: Colors.white,
+                          title: "LOGIN",
+                          submit: () {
+                            if (formKey.currentState!.validate()) {
                               setState(() {
-                                isloading = false;
+                                isloading = true;
                               });
-                              showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                      title: Text(' Ops! LOgin Failed'),
-                                      content: Text('${e.message}')));
+                              repo
+                                  .userLogin(
+                                      context: context,
+                                      addLoading: () => addLoading(),
+                                      data: data,
+                                      emailController: emailController,
+                                      passwordController: passwordController)
+                                  .then((value) {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            HomeScreen(data: value)),
+                                    (Route<dynamic> route) => false);
+                              });
                             }
-                          }
-                        },
-                      ),
+                          }),
                       const SizedBox(
                         height: 12,
                       ),

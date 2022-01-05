@@ -7,7 +7,10 @@ import 'package:furniture_shop_app/screens/filters/filter_screen.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({Key? key}) : super(key: key);
+  String email;
+  String name;
+  HomeDrawer({required this.email, required this.name, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +45,14 @@ class HomeDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Gregory Bates",
+                        name,
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       const SizedBox(
                         height: 7.0,
                       ),
                       Text(
-                        "Rehamrafaat202@gmail.com",
+                        email,
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],

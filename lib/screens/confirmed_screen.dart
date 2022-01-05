@@ -47,10 +47,10 @@ class ConfirmedScreen extends StatelessWidget {
                 txtColor: Colors.white,
                 title: "Continue Shopping",
                 submit: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const HomeScreen()));
                 }),
             const SizedBox(
               height: 100,

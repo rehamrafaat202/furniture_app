@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/models/user_model.dart';
+import 'package:furniture_shop_app/repositry/auth_repositry.dart';
 import 'package:furniture_shop_app/screens/auth/login_page/login_page_screen.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 import 'package:furniture_shop_app/widgets/default_text_form.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class SignupPageScreen extends StatefulWidget {
   const SignupPageScreen({Key? key}) : super(key: key);
@@ -16,57 +18,23 @@ class SignupPageScreen extends StatefulWidget {
 }
 
 class _SignupPageScreenState extends State<SignupPageScreen> {
+  var userNameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var phoneController = TextEditingController();
   var dateOfBirthController = TextEditingController();
   var addressController = TextEditingController();
   bool isloading = false;
-  Future createUser({
-    required uid,
-    required emailController,
-    required phoneController,
-    required dateOfBirthController,
-    required addressController,
-  }) async {
-    final UserModel model = UserModel(
-        uid: uid,
-        email: emailController,
-        address: addressController,
-        dateOfBirth: dateOfBirthController,
-        phone: phoneController);
-    return await FirebaseFirestore.instance
-        .collection("users")
-        .doc(uid)
-        .set(model.toMap());
-  }
 
-  Future userRegister() async {
-    try {
-      UserCredential result = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      // print(result.user);
-      await createUser(
-          uid: result.user!.uid,
-          emailController: emailController.text,
-          phoneController: phoneController.text,
-          dateOfBirthController: dateOfBirthController.text,
-          addressController: addressController.text);
+  DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-          (Route<dynamic> route) => false);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        isloading = false;
-      });
-      showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-              title: Text(' Ops! Registration Failed'),
-              content: Text('${e.message}')));
-    }
+  AuthRepositry repo = AuthRepositry();
+
+  UserModel? data;
+  void addLoading() {
+    setState(() {
+      isloading = false;
+    });
   }
 
   var formKey = GlobalKey<FormState>();
@@ -101,6 +69,20 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                           ),
                       const SizedBox(
                         height: 20,
+                      ),
+                      defaultFormText(
+                        control: userNameController,
+                        type: TextInputType.name,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "User Name can't be Empty";
+                          }
+                          return null;
+                        },
+                        label: "Name",
+                      ),
+                      const SizedBox(
+                        height: 25,
                       ),
                       defaultFormText(
                         control: emailController,
@@ -176,12 +158,32 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                           color: const Color(0xff242A37),
                           txtColor: Colors.white,
                           title: "SIGN UP",
-                          submit: () async {
+                          submit: () {
                             if (formKey.currentState!.validate()) {
                               setState(() {
                                 isloading = true;
                               });
-                              await userRegister();
+                              repo
+                                  .userRegister(
+                                      context: context,
+                                      data: data,
+                                      addLoading: () => addLoading(),
+                                      emailController: emailController,
+                                      passwordController: passwordController,
+                                      model: UserModel(
+                                          name: userNameController.text,
+                                          email: emailController.text,
+                                          address: addressController.text,
+                                          dateOfBirth:
+                                              dateOfBirthController.text,
+                                          phone: phoneController.text))
+                                  .then((value) {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            HomeScreen(data: value)),
+                                    (Route<dynamic> route) => false);
+                              });
                             }
                           }),
                       const SizedBox(

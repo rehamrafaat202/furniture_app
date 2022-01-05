@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/user_model.dart';
 import 'package:furniture_shop_app/screens/home/components/body.dart';
 import 'package:furniture_shop_app/screens/home/components/home_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  UserModel data;
+  HomeScreen({required this.data, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('=========${data.email}');
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -20,7 +23,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: HomeDrawer(),
+      drawer: HomeDrawer(email: data.email!, name: data.name!),
       body: const Body(),
     );
   }
