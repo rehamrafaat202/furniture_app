@@ -79,7 +79,7 @@ class _PayMethodsState extends State<PayMethods> {
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              methods[index].type,
+                              methods[index].method,
                               style:
                                   TextStyle(fontSize: 16, color: Colors.grey),
                             ),
