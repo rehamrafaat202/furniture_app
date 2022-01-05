@@ -48,14 +48,11 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
               email: emailController.text, password: passwordController.text);
       // print(result.user);
       await createUser(
-              uid: result.user!.uid,
-              emailController: emailController.text,
-              phoneController: phoneController.text,
-              dateOfBirthController: dateOfBirthController.text,
-              addressController: addressController.text)
-          .then((value) {
-        print(value.toString());
-      });
+          uid: result.user!.uid,
+          emailController: emailController.text,
+          phoneController: phoneController.text,
+          dateOfBirthController: dateOfBirthController.text,
+          addressController: addressController.text);
 
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -186,36 +183,7 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                               });
                               await userRegister();
                             }
-                          }
-
-                          // async {
-                          //   if (formKey.currentState!.validate()) {
-                          //     setState(() {
-                          //       isloading = true;
-                          //     });
-                          //     try {
-                          //       UserCredential result = await FirebaseAuth
-                          //           .instance
-                          //           .createUserWithEmailAndPassword(
-                          //               email: emailController.text,
-                          //               password: passwordController.text);
-                          //       print(result.user);
-                          //       print(emailController.text);
-                          //       Navigator.of(context).pushAndRemoveUntil(
-                          //           MaterialPageRoute(
-                          //               builder: (context) => HomeScreen()),
-                          //           (Route<dynamic> route) => false);
-                          //     } on FirebaseAuthException catch (e) {
-                          //       showDialog(
-                          //           context: context,
-                          //           builder: (ctx) => AlertDialog(
-                          //               title:
-                          //                   Text(' Ops! Registration Failed'),
-                          //               content: Text('${e.message}')));
-                          //     }
-                          //   }
-                          // }),
-                          ),
+                          }),
                       const SizedBox(
                         height: 12,
                       ),
