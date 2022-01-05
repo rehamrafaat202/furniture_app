@@ -94,16 +94,10 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                   .signInWithEmailAndPassword(
                                       email: emailController.text,
                                       password: passwordController.text);
-
-                              Navigator.push(
-                                  context,
+                              Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen(
-                                          email: emailController.text)));
-
-                              // print(emailController.text);
-                              // print(passwordController.text);
-
+                                      builder: (context) => HomeScreen()),
+                                  (Route<dynamic> route) => false);
                             } on FirebaseAuthException catch (e) {
                               setState(() {
                                 isloading = false;

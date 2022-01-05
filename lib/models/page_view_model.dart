@@ -8,15 +8,15 @@ class PagesViewModel {
 
 List<PagesViewModel> items = [
   PagesViewModel(
-      image: "assets/images/fun1.jpg",
+      image: "assets/images/onb1.png",
       title: "Discover",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  "),
   PagesViewModel(
-      image: "assets/images/fun6.jpg",
+      image: "assets/images/onb2.jpg",
       title: "New Arrivals",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"),
   PagesViewModel(
-      image: "assets/images/fun3.jpg",
+      image: "assets/images/onb3.png",
       title: "Our Favourite\n Looks For Your Style",
       body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"),
 ];

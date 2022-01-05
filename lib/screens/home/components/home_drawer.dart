@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/screens/auth/login_page/login_page_screen.dart';
+import 'package:furniture_shop_app/screens/auth/welcome_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/screens/cart/cart_screen.dart';
 import 'package:furniture_shop_app/screens/filters/filter_screen.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 
 class HomeDrawer extends StatelessWidget {
-  final String? email;
-  const HomeDrawer({this.email, Key? key}) : super(key: key);
+  const HomeDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class HomeDrawer extends StatelessWidget {
                         height: 7.0,
                       ),
                       Text(
-                        email!,
+                        "Rehamrafaat202@gmail.com",
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
@@ -64,20 +65,17 @@ class HomeDrawer extends StatelessWidget {
               child: Column(
             children: [
               defaultdrawerWidgets(
-                  icn: Icons.home,
+                  icon: Icons.home,
                   title: "Home",
                   press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()));
+                    Navigator.pop(context);
                   }),
               defaultdrawerWidgets(
-                  icn: Icons.queue_rounded,
+                  icon: Icons.queue_rounded,
                   title: "New Collections",
                   press: () {}),
               defaultdrawerWidgets(
-                  icn: Icons.filter_alt_rounded,
+                  icon: Icons.filter_alt_rounded,
                   title: "Filters",
                   press: () {
                     Navigator.push(
@@ -86,13 +84,13 @@ class HomeDrawer extends StatelessWidget {
                             builder: (context) => const FilteersScreen()));
                   }),
               defaultdrawerWidgets(
-                  icn: Icons.bookmark_rounded,
+                  icon: Icons.bookmark_rounded,
                   title: "Editor's Picks",
                   press: () {}),
               defaultdrawerWidgets(
-                  icn: Icons.local_offer, title: "Top Deals", press: () {}),
+                  icon: Icons.local_offer, title: "Top Deals", press: () {}),
               defaultdrawerWidgets(
-                  icn: Icons.shopping_cart,
+                  icon: Icons.shopping_cart,
                   title: "Your cart",
                   press: () {
                     Navigator.push(
@@ -101,11 +99,20 @@ class HomeDrawer extends StatelessWidget {
                             builder: (context) => const CartScreen()));
                   }),
               defaultdrawerWidgets(
-                  icn: Icons.notifications,
+                  icon: Icons.notifications,
                   title: "Notifications",
                   press: () {}),
               defaultdrawerWidgets(
-                  icn: Icons.settings, title: "Settings", press: () {})
+                  icon: Icons.settings, title: "Settings", press: () {}),
+              defaultdrawerWidgets(
+                  icon: Icons.power_settings_new,
+                  title: "Logout",
+                  press: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => WelcomeScreen()),
+                        (Route<dynamic> route) => false);
+                  })
             ],
           ))
         ],
@@ -113,13 +120,13 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
-  Widget defaultdrawerWidgets({icn, title, press}) {
+  Widget defaultdrawerWidgets({icon, title, press}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Row(
         children: [
           Icon(
-            icn,
+            icon,
             color: icnColor,
           ),
           TextButton(

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/user_model.dart';
 import 'package:furniture_shop_app/screens/auth/login_page/login_page_screen.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 import 'package:furniture_shop_app/style.dart';
@@ -20,6 +22,55 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
   var dateOfBirthController = TextEditingController();
   var addressController = TextEditingController();
   bool isloading = false;
+  Future createUser({
+    required uid,
+    required emailController,
+    required phoneController,
+    required dateOfBirthController,
+    required addressController,
+  }) async {
+    final UserModel model = UserModel(
+        uid: uid,
+        email: emailController,
+        address: addressController,
+        dateOfBirth: dateOfBirthController,
+        phone: phoneController);
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .set(model.toMap());
+  }
+
+  Future userRegister() async {
+    try {
+      UserCredential result = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text);
+      // print(result.user);
+      await createUser(
+              uid: result.user!.uid,
+              emailController: emailController.text,
+              phoneController: phoneController.text,
+              dateOfBirthController: dateOfBirthController.text,
+              addressController: addressController.text)
+          .then((value) {
+        print(value.toString());
+      });
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+          (Route<dynamic> route) => false);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        isloading = false;
+      });
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+              title: Text(' Ops! Registration Failed'),
+              content: Text('${e.message}')));
+    }
+  }
 
   var formKey = GlobalKey<FormState>();
   @override
@@ -133,27 +184,38 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                               setState(() {
                                 isloading = true;
                               });
-                              try {
-                                await FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: emailController.text,
-                                        password: passwordController.text);
-                                print(emailController.text);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomeScreen(
-                                            email: emailController.text)));
-                              } on FirebaseAuthException catch (e) {
-                                showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                        title:
-                                            Text(' Ops! Registration Failed'),
-                                        content: Text('${e.message}')));
-                              }
+                              await userRegister();
                             }
-                          }),
+                          }
+
+                          // async {
+                          //   if (formKey.currentState!.validate()) {
+                          //     setState(() {
+                          //       isloading = true;
+                          //     });
+                          //     try {
+                          //       UserCredential result = await FirebaseAuth
+                          //           .instance
+                          //           .createUserWithEmailAndPassword(
+                          //               email: emailController.text,
+                          //               password: passwordController.text);
+                          //       print(result.user);
+                          //       print(emailController.text);
+                          //       Navigator.of(context).pushAndRemoveUntil(
+                          //           MaterialPageRoute(
+                          //               builder: (context) => HomeScreen()),
+                          //           (Route<dynamic> route) => false);
+                          //     } on FirebaseAuthException catch (e) {
+                          //       showDialog(
+                          //           context: context,
+                          //           builder: (ctx) => AlertDialog(
+                          //               title:
+                          //                   Text(' Ops! Registration Failed'),
+                          //               content: Text('${e.message}')));
+                          //     }
+                          //   }
+                          // }),
+                          ),
                       const SizedBox(
                         height: 12,
                       ),
