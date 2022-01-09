@@ -9,7 +9,9 @@ import 'package:furniture_shop_app/screens/home/home_screen.dart';
 class HomeDrawer extends StatelessWidget {
   String email;
   String name;
-  HomeDrawer({required this.email, required this.name, Key? key})
+  String image;
+  HomeDrawer(
+      {required this.email, required this.name, required this.image, Key? key})
       : super(key: key);
 
   @override
@@ -32,12 +34,12 @@ class HomeDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(right: 10.0, left: 10),
                   child: CircleAvatar(
                     radius: 40,
                     backgroundColor: Color(0xffEDE4EB),
-                    backgroundImage: AssetImage("assets/images/profile.png"),
+                    backgroundImage: NetworkImage(image),
                   ),
                 ),
                 Expanded(

@@ -1,5 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: deprecated_member_use
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/models/user_model.dart';
 import 'package:furniture_shop_app/repositry/auth_repositry.dart';
@@ -8,7 +10,6 @@ import 'package:furniture_shop_app/screens/home/home_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 import 'package:furniture_shop_app/widgets/default_text_form.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class SignupPageScreen extends StatefulWidget {
   const SignupPageScreen({Key? key}) : super(key: key);
@@ -26,11 +27,8 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
   var addressController = TextEditingController();
   bool isloading = false;
 
-  DatabaseReference ref = FirebaseDatabase.instance.ref("users");
-
   AuthRepositry repo = AuthRepositry();
 
-  UserModel? data;
   void addLoading() {
     setState(() {
       isloading = false;
@@ -68,7 +66,43 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                           // .copyWith(color: Colors.black, ),
                           ),
                       const SizedBox(
-                        height: 20,
+                        height: 30,
+                      ),
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 140,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: scendryColor, width: 4),
+                                image: repo.profileImage != null
+                                    ? DecorationImage(
+                                        image: FileImage(
+                                          repo.profileImage!,
+                                        ),
+                                        fit: BoxFit.cover)
+                                    : const DecorationImage(
+                                        image: NetworkImage(
+                                            "https://www.pngitem.com/pimgs/m/294-2947257_interface-icons-user-avatar-profile-user-avatar-png.png")),
+                              ),
+                            ),
+                            TextButton(
+                                onPressed: () async {
+                                  await repo.getImage(getState: () {
+                                    setState(() {});
+                                  }).then((value) {});
+                                },
+                                child: const Text(
+                                  "Add Image",
+                                  style: TextStyle(color: Colors.black),
+                                ))
+                          ],
+                        ),
                       ),
                       defaultFormText(
                         control: userNameController,
@@ -108,6 +142,9 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                           return null;
                         },
                         label: "password",
+                      ),
+                      const SizedBox(
+                        height: 25,
                       ),
                       const SizedBox(
                         height: 25,
@@ -163,10 +200,10 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                               setState(() {
                                 isloading = true;
                               });
+
                               repo
                                   .userRegister(
                                       context: context,
-                                      data: data,
                                       addLoading: () => addLoading(),
                                       emailController: emailController,
                                       passwordController: passwordController,
@@ -183,6 +220,8 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                                         builder: (context) =>
                                             HomeScreen(data: value)),
                                     (Route<dynamic> route) => false);
+                              }).catchError((e) {
+                                return e;
                               });
                             }
                           }),

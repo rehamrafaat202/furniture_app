@@ -3,14 +3,17 @@ import 'package:flutter/cupertino.dart';
 class UserModel {
   String? name;
   String? email;
-  dynamic? phone;
-  dynamic? dateOfBirth;
+  dynamic phone;
+  dynamic dateOfBirth;
+  String? image;
   String? address;
+  // String? img;
   UserModel(
       {required this.name,
       required this.email,
       required this.address,
       required this.dateOfBirth,
+      this.image,
       required this.phone});
   UserModel.fromJson(Map<dynamic, dynamic> json) {
     name = json["name"];
@@ -18,6 +21,7 @@ class UserModel {
     phone = json["phone"];
     dateOfBirth = json["dateOfBirth"];
     address = json["address"];
+    image = json["image"];
   }
   Map<String, dynamic> toMap() {
     return {
@@ -25,7 +29,8 @@ class UserModel {
       "email": email,
       "phone": phone,
       "dateOfBirth": dateOfBirth,
-      "address": address
+      "address": address,
+      "image": image
     };
   }
 }

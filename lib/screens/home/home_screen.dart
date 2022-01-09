@@ -9,7 +9,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('=========${data.email}');
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -23,7 +22,8 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: HomeDrawer(email: data.email!, name: data.name!),
+      drawer:
+          HomeDrawer(email: data.email!, name: data.name!, image: data.image!),
       body: const Body(),
     );
   }

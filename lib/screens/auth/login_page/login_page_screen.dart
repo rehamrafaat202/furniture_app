@@ -24,7 +24,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
   var formKey = GlobalKey<FormState>();
   bool isloading = false;
-  UserModel? data;
+
   void addLoading() {
     setState(() {
       isloading = false;
@@ -103,7 +103,6 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                   .userLogin(
                                       context: context,
                                       addLoading: () => addLoading(),
-                                      data: data,
                                       emailController: emailController,
                                       passwordController: passwordController)
                                   .then((value) {
@@ -112,6 +111,8 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                         builder: (context) =>
                                             HomeScreen(data: value)),
                                     (Route<dynamic> route) => false);
+                              }).catchError((e) {
+                                return e;
                               });
                             }
                           }),
