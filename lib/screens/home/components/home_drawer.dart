@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/screens/add_collection/add_collection_screen.dart';
 import 'package:furniture_shop_app/screens/auth/login_page/login_page_screen.dart';
 import 'package:furniture_shop_app/screens/auth/welcome_screen.dart';
 import 'package:furniture_shop_app/style.dart';
@@ -77,8 +78,13 @@ class HomeDrawer extends StatelessWidget {
                   }),
               defaultdrawerWidgets(
                   icon: Icons.queue_rounded,
-                  title: "New Collections",
-                  press: () {}),
+                  title: "Add Collections",
+                  press: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (conttext) => AddCollectionScreen()));
+                  }),
               defaultdrawerWidgets(
                   icon: Icons.filter_alt_rounded,
                   title: "Filters",

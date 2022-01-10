@@ -9,6 +9,7 @@ Widget defaultFormText(
         required String label,
         r}) =>
     TextFormField(
+        autofocus: true,
         controller: control,
         keyboardType: type,
         validator: validator,

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,13 +43,12 @@ class AuthRepositry {
 
         return value;
       });
-      print(result.user);
     } on FirebaseAuthException catch (e) {
       addLoading();
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-              title: Text(' Ops! Registration Failed'),
+              title: const Text(' Ops! Registration Failed'),
               content: Text('${e.message}')));
     }
 
@@ -74,7 +75,7 @@ class AuthRepositry {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-              title: Text(' Ops! Login Failed'),
+              title: const Text(' Ops! Login Failed'),
               content: Text('${e.message}')));
     }
 
