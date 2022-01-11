@@ -20,7 +20,7 @@ class CartItem extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: reviewGroundColor),
-            child: Image.network(cart.img)),
+            child: Image.network(cart.img!)),
         Positioned(
           left: 10.0,
           child: Container(
@@ -47,7 +47,7 @@ class CartItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            cart.title,
+            cart.title!,
             style: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
           ),
@@ -66,10 +66,10 @@ class CartItem extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 8.0),
                     width: 15,
                     height: 15,
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, color: cart.col),
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.black),
                   ),
-                  Text(cart.txtcol, style: TextStyle(color: Colors.grey[400])),
+                  Text("Black", style: TextStyle(color: Colors.grey[400])),
                 ],
               ),
               Container(

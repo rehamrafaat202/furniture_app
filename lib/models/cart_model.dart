@@ -2,60 +2,38 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CartModel {
-  String img;
-  String title;
-  int size;
-  Color col;
-  String txtcol;
-  double price;
+  String? id;
+  String? img;
+  String? title;
+  dynamic size;
+  Color? col;
+  String? txtcol;
+  dynamic price;
   CartModel(
-      {required this.img,
-      required this.col,
-      required this.size,
-      required this.title,
-      required this.price,
-      required this.txtcol});
-}
+      {this.img,
+      this.id,
+      this.col,
+      this.size,
+      this.title,
+      this.price,
+      this.txtcol});
 
-List<CartModel> cart = [
-  CartModel(
-      img:
-          "https://freepngimg.com/thumb/chair/2-2-chair-download-png-thumb.png",
-      col: Colors.black,
-      size: 34,
-      price: 200.0,
-      title: "Chair side end Table",
-      txtcol: "Black"),
-  CartModel(
-      img:
-          "https://freepngimg.com/thumb/chair/2-2-chair-download-png-thumb.png",
-      col: Colors.black,
-      size: 34,
-      price: 200.0,
-      title: "Chair side end Table",
-      txtcol: "Black"),
-  CartModel(
-      img:
-          "https://freepngimg.com/thumb/chair/2-2-chair-download-png-thumb.png",
-      col: Colors.yellow,
-      size: 34,
-      price: 200.0,
-      title: "Chair side end Table",
-      txtcol: "yellow"),
-  CartModel(
-      img:
-          "https://freepngimg.com/thumb/chair/2-2-chair-download-png-thumb.png",
-      col: Colors.black,
-      size: 34,
-      price: 200.0,
-      title: "Chair side end Table",
-      txtcol: "Black"),
-  CartModel(
-      img:
-          "https://freepngimg.com/thumb/chair/2-2-chair-download-png-thumb.png",
-      col: Colors.black,
-      size: 34,
-      price: 200.0,
-      title: "Chair side end Table",
-      txtcol: "Black"),
-];
+  CartModel.fromJson(Map<dynamic, dynamic> json) {
+    img = json["img"];
+    title = json["title"];
+    size = json["size"];
+    // col = json["col"];
+    // txtcol = json["txtcol"];
+    price = json["price"];
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "img": img,
+      "title": title,
+      "size": size,
+      // "col": col,
+      // "txtcol": txtcol,
+      "price": price
+    };
+  }
+}

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Description extends StatelessWidget {
   final String description;
-  final int sku;
+  final dynamic sku;
   final String categories;
   final String tags;
   final String dimensions;

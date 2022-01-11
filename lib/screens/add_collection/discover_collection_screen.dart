@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/models/discover_model.dart';
-import 'package:furniture_shop_app/repositry/furniture_repository.dart';
+import 'package:furniture_shop_app/repositry/discover_repository.dart';
 import 'package:furniture_shop_app/style.dart';
+import 'package:furniture_shop_app/widgets/add_image.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 import 'package:furniture_shop_app/widgets/default_text_form.dart';
 
-class AddCollectionScreen extends StatefulWidget {
-  const AddCollectionScreen({Key? key}) : super(key: key);
+class AddDiscoverScreen extends StatefulWidget {
+  const AddDiscoverScreen({Key? key}) : super(key: key);
 
   @override
-  _AddCollectionScreenState createState() => _AddCollectionScreenState();
+  _AddDiscoverScreenState createState() => _AddDiscoverScreenState();
 }
 
-class _AddCollectionScreenState extends State<AddCollectionScreen> {
+class _AddDiscoverScreenState extends State<AddDiscoverScreen> {
   var furnitureNameController = TextEditingController();
   var furnitureTypeController = TextEditingController();
   var furniturePriceController = TextEditingController();
   var furnitureItemsController = TextEditingController();
   void clear() {
+    setState(() {});
     furnitureItemsController.clear();
     furnitureNameController.clear();
     furniturePriceController.clear();
@@ -63,34 +65,13 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 140,
-                        height: 140,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          border: Border.all(color: scendryColor, width: 4),
-                          image: repository.profileImage != null
-                              ? DecorationImage(
-                                  image: FileImage(
-                                    repository.profileImage!,
-                                  ),
-                                  fit: BoxFit.cover)
-                              : const DecorationImage(
-                                  image: NetworkImage(
-                                      "https://www.pngitem.com/pimgs/m/294-2947257_interface-icons-user-avatar-profile-user-avatar-png.png")),
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () async {
-                            await repository.getImage(getState: () {
+                      AddImage(
+                          profileImage: repository.profileImage,
+                          getImage: () {
+                            repository.getImage(getState: () {
                               setState(() {});
                             }).then((value) {});
-                          },
-                          child: const Text(
-                            "Furniture Image",
-                            style: TextStyle(color: Colors.black),
-                          ))
+                          }),
                     ],
                   ),
                 ),
@@ -178,27 +159,20 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
                                     addLoading: () => addLoading(),
                                     context: context)
                                 .then((value) {
+                              // clear();
                               setState(() {
                                 isloading = false;
                               });
 
                               showDialog(
-                                  context: context,
-                                  builder: (ctx) => const AlertDialog(
-                                      title: Text(' GOOD JOB'),
-                                      content: Text(
-                                          'Your Discover Furniture added successfuly ')));
-                              // setState(() async {
-                              // await repository
-                              //     .displayDiscover()
-                              //     .then((value) {
-                              //   print(value.length);
-
-                              //   clear();
-                              // });
-
-                              // repository.model.add(value);
-                              // });
+                                      context: context,
+                                      builder: (ctx) => const AlertDialog(
+                                          title: Text(' GOOD JOB'),
+                                          content: Text(
+                                              'Your Discover Furniture added successfuly ')))
+                                  .then((value) {
+                                clear();
+                              });
                             }).catchError((e) {
                               return e;
                             });

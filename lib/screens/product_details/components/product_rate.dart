@@ -8,7 +8,7 @@ class TitleWithRate extends StatefulWidget {
     required this.price,
   }) : super(key: key);
 
-  final double price;
+  final dynamic price;
   final String title;
 
   @override

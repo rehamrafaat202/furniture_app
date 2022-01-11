@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:furniture_shop_app/screens/add_collection/add_collection_screen.dart';
-import 'package:furniture_shop_app/screens/auth/login_page/login_page_screen.dart';
+import 'package:furniture_shop_app/screens/add_collection/discover_collection_screen.dart';
+import 'package:furniture_shop_app/screens/add_collection/best_selling_collection.dart';
+import 'package:furniture_shop_app/screens/add_collection/new_collection.dart';
+import 'package:furniture_shop_app/screens/add_collection/trending_collection.dart';
 import 'package:furniture_shop_app/screens/auth/welcome_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/screens/cart/cart_screen.dart';
 import 'package:furniture_shop_app/screens/filters/filter_screen.dart';
-import 'package:furniture_shop_app/screens/home/home_screen.dart';
 
 class HomeDrawer extends StatelessWidget {
   String email;
@@ -36,10 +37,10 @@ class HomeDrawer extends StatelessWidget {
             child: Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(right: 10.0, left: 10),
+                  padding: const EdgeInsets.only(right: 10.0, left: 10),
                   child: CircleAvatar(
                     radius: 40,
-                    backgroundColor: Color(0xffEDE4EB),
+                    backgroundColor: const Color(0xffEDE4EB),
                     backgroundImage: NetworkImage(image),
                   ),
                 ),
@@ -56,7 +57,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                       Text(
                         email,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
                     ],
                   ),
@@ -78,12 +79,41 @@ class HomeDrawer extends StatelessWidget {
                   }),
               defaultdrawerWidgets(
                   icon: Icons.queue_rounded,
-                  title: "Add Collections",
+                  title: " Discover Collections",
                   press: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (conttext) => AddCollectionScreen()));
+                            builder: (conttext) => const AddDiscoverScreen()));
+                  }),
+              defaultdrawerWidgets(
+                  icon: Icons.queue_rounded,
+                  title: "Best Selling Collection ",
+                  press: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (conttext) =>
+                                const BestSellingCollection()));
+                  }),
+              defaultdrawerWidgets(
+                  icon: Icons.queue_rounded,
+                  title: "Trending Collection",
+                  press: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (conttext) => const TrendingCollection()));
+                  }),
+              defaultdrawerWidgets(
+                  icon: Icons.queue_rounded,
+                  title: "New Collection",
+                  press: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (conttext) =>
+                                const AddCollectionScreen()));
                   }),
               defaultdrawerWidgets(
                   icon: Icons.filter_alt_rounded,
@@ -94,12 +124,6 @@ class HomeDrawer extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => const FilteersScreen()));
                   }),
-              defaultdrawerWidgets(
-                  icon: Icons.bookmark_rounded,
-                  title: "Editor's Picks",
-                  press: () {}),
-              defaultdrawerWidgets(
-                  icon: Icons.local_offer, title: "Top Deals", press: () {}),
               defaultdrawerWidgets(
                   icon: Icons.shopping_cart,
                   title: "Your cart",

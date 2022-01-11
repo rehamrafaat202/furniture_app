@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/cart_model.dart';
 
 import 'package:furniture_shop_app/models/home_model.dart';
+import 'package:furniture_shop_app/models/trending_model.dart';
+import 'package:furniture_shop_app/repositry/cart_repository.dart';
 import 'package:furniture_shop_app/screens/cart/cart_screen.dart';
 import 'package:furniture_shop_app/screens/product_details/components/also_like_product.dart';
 import 'package:furniture_shop_app/screens/product_details/components/colors_widget.dart';
@@ -12,14 +15,26 @@ import 'package:furniture_shop_app/screens/product_details/components/product_ra
 // import 'package:furniture_shop_app/shared_component_btw_screen.dart/container_button.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({
     Key? key,
     required this.product,
   }) : super(key: key);
 
-  final Trending? product;
-  // final int index;
+  final TrendingModel? product;
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  CartRepository repository = CartRepository();
+  bool isloading = false;
+  void addLoading() {
+    setState(() {
+      isloading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +44,12 @@ class Body extends StatelessWidget {
         child: Column(
           children: [
             ProductImage(
-              imge: product!.img,
-              type: product!.type,
+              imge: widget.product!.img!,
+              type: widget.product!.type!,
             ),
             TitleWithRate(
-              title: product!.title,
-              price: product!.price,
+              title: widget.product!.title!,
+              price: widget.product!.price,
             ),
             const SizedBox(
               height: 10.0,
@@ -43,26 +58,26 @@ class Body extends StatelessWidget {
             const SizedBox(
               height: 10.0,
             ),
-            AlsoLike(
-              x: product!.items,
-            ),
+            // AlsoLike(
+            //   x: product!.items,
+            // ),
             const SizedBox(
               height: 10.0,
             ),
             Description(
-              description: product!.description,
-              sku: product!.sku,
-              categories: product!.categories,
-              dimensions: product!.dimensions,
-              tags: product!.tags,
+              description: widget.product!.description!,
+              sku: widget.product!.sku,
+              categories: widget.product!.categories!,
+              dimensions: widget.product!.dimensions!,
+              tags: widget.product!.tags!,
             ),
             const Review(),
             const SizedBox(
               height: 10.0,
             ),
-            SimilarItem(
-              similar: product!.similar,
-            ),
+            // SimilarItem(
+            //   similar: product!.similar,
+            // ),
             const SizedBox(
               height: 10.0,
             ),
@@ -70,7 +85,31 @@ class Body extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: ContainerButton(
                   title: "Add to cart".toUpperCase(),
-                  submit: () {},
+                  submit: () async {
+                    await repository
+                        .addToCart(
+                            context: context,
+                            model: CartModel(
+                                img: widget.product!.img,
+                                size: 34,
+                                title: widget.product!.title,
+                                price: widget.product!.price))
+                        .then((value) {
+                      setState(() {
+                        isloading = false;
+                      });
+
+                      showDialog(
+                              context: context,
+                              builder: (ctx) => const AlertDialog(
+                                  title: Text(' GOOD JOB'),
+                                  content: Text(
+                                      'Your Discover Furniture added successfuly ')))
+                          .then((value) {});
+                    }).catchError((e) {
+                      return e;
+                    });
+                  },
                   color: const Color(0xff242A37),
                   txtColor: Colors.white),
             ),

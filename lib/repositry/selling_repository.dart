@@ -5,18 +5,18 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/best_selling_model.dart';
 import 'package:furniture_shop_app/models/discover_model.dart';
+import 'package:furniture_shop_app/models/home_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-class FurnitureRepository {
-  FurnitureRepository();
+class SellingRepository {
+  SellingRepository();
   File? profileImage;
-  List<DiscoverModel> model = [];
-  // List<Need> _needs = [];
 
   final picker = ImagePicker();
-  DiscoverModel? discoverModel;
+  BestSellingModel? bestSellingModel;
   Future getImage({getState, context}) async {
     final picked = await picker.getImage(source: ImageSource.gallery);
     getState();
@@ -25,11 +25,11 @@ class FurnitureRepository {
     }
   }
 
-  Future<DiscoverModel> addFurnitureDiscover(
-      {DiscoverModel? model, addLoading, context}) async {
+  Future<BestSellingModel> addBestSellingFurniture(
+      {BestSellingModel? model, addLoading, context}) async {
     try {
       var frebaseStorageRef = firebase_storage.FirebaseStorage.instance
-          .ref("discover")
+          .ref("best-selling")
           .child(Uri.file(profileImage!.path).pathSegments.last);
 
       var uploadTask = frebaseStorageRef.putFile(profileImage!);
@@ -38,14 +38,14 @@ class FurnitureRepository {
       model!.img = await storageSnapShot.ref.getDownloadURL();
 
       DatabaseReference ref =
-          FirebaseDatabase.instance.ref("Home").child("discover").push();
+          FirebaseDatabase.instance.ref("Home").child("best-selling").push();
 
-      await ref.set(model.toMap());
+      await ref.set(model.toJson());
       DatabaseEvent event = await ref.once();
       final json = event.snapshot.value as Map<dynamic, dynamic>;
 
-      discoverModel = DiscoverModel.fromJson(json);
-      discoverModel!.id = event.snapshot.key;
+      bestSellingModel = BestSellingModel.fromJson(json);
+      bestSellingModel!.id = event.snapshot.key;
     } on FirebaseAuthException catch (e) {
       addLoading();
       showDialog(
@@ -55,26 +55,25 @@ class FurnitureRepository {
               content: Text('${e.message}')));
     }
 
-    return discoverModel!;
+    return bestSellingModel!;
   }
 
-  Future<List<DiscoverModel>> displayDiscover() async {
-    Query needsSnapshot =
-        FirebaseDatabase.instance.ref("Home").child("discover").orderByKey();
-    List<DiscoverModel> needs = [];
+  Future<List<BestSellingModel>> displaySelling() async {
+    Query needsSnapshot = FirebaseDatabase.instance
+        .ref("Home")
+        .child("best-selling")
+        .orderByKey();
+    List<BestSellingModel> needs = [];
 
     Map? content;
     await needsSnapshot.once().then((value) {
       content = value.snapshot.value as Map<dynamic, dynamic>;
-
-      // print(content);
-    });
+    }).then((value) {});
     content!.forEach((key, value) {
-      discoverModel = DiscoverModel.fromJson(value);
-      needs.add(discoverModel!);
+      bestSellingModel = BestSellingModel.fromJson(value);
+      needs.add(bestSellingModel!);
     });
-    // print(needs.length);
+
     return needs;
-    // return needs;
   }
 }
