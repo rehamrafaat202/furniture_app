@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/user_model.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 
 class ConfirmedScreen extends StatelessWidget {
-  const ConfirmedScreen({Key? key}) : super(key: key);
+  final UserModel data;
+  const ConfirmedScreen({required this.data, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +49,12 @@ class ConfirmedScreen extends StatelessWidget {
                 txtColor: Colors.white,
                 title: "Continue Shopping",
                 submit: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const HomeScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomeScreen(
+                                data: data,
+                              )));
                 }),
             const SizedBox(
               height: 100,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/new_collection_model.dart';
 
 import 'package:furniture_shop_app/screens/home/components/best_selling_view.dart';
 
@@ -46,7 +47,6 @@ class _BodyState extends State<Body> {
             const SizedBox(
               height: 40.0,
             ),
-            // Collection(),
             const Collection(),
             const SizedBox(
               height: 18.0,
@@ -58,7 +58,6 @@ class _BodyState extends State<Body> {
               height: 18.0,
             ),
             const BestSelling(),
-
             const SizedBox(
               height: 40.0,
             ),

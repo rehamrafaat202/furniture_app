@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class UserModel {
   String? name;
   String? email;
@@ -7,7 +5,7 @@ class UserModel {
   dynamic dateOfBirth;
   String? image;
   String? address;
-  // String? img;
+
   UserModel(
       {required this.name,
       required this.email,

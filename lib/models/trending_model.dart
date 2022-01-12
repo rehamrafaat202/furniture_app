@@ -10,20 +10,17 @@ class TrendingModel {
   String? dimensions;
 
   dynamic price;
-  List<ItemModel>? items = [];
-  // List<SimilarProduct> similar = [];
+
   TrendingModel(
       {this.img,
       this.id,
       this.price,
       this.title,
-      // required this.similar,
       this.description,
       this.categories,
       this.dimensions,
       this.sku,
       this.tags,
-      this.items,
       this.type});
   TrendingModel.fromJson(Map<dynamic, dynamic> json) {
     title = json["title"];
@@ -35,11 +32,6 @@ class TrendingModel {
     dimensions = json["dimensions"];
     tags = json["tags"];
     price = json["price"];
-    // if (json['items'] != null) {
-    //   json['items'].forEach((v) {
-    //     items!.add(ItemModel.fromJson(v));
-    //   });
-    // }
   }
   Map<String, dynamic> toJson() {
     return {
@@ -52,24 +44,6 @@ class TrendingModel {
       "tags": tags,
       "price": price,
       "dimensions": dimensions,
-      if (items != null)
-        "items": items!.map((e) {
-          return e.toJson;
-        }).toList(),
-    };
-  }
-}
-
-class ItemModel {
-  String? id;
-  String? image;
-  ItemModel({this.id, this.image});
-  ItemModel.fromJson(Map<dynamic, dynamic> json) {
-    image = json["image"];
-  }
-  Map<String, dynamic> toJson() {
-    return {
-      "image": image,
     };
   }
 }

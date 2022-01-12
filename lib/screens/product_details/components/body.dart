@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/models/cart_model.dart';
-
-import 'package:furniture_shop_app/models/home_model.dart';
 import 'package:furniture_shop_app/models/trending_model.dart';
 import 'package:furniture_shop_app/repositry/cart_repository.dart';
-import 'package:furniture_shop_app/screens/cart/cart_screen.dart';
 import 'package:furniture_shop_app/screens/product_details/components/also_like_product.dart';
 import 'package:furniture_shop_app/screens/product_details/components/colors_widget.dart';
 import 'package:furniture_shop_app/screens/product_details/components/product_description.dart';
 import 'package:furniture_shop_app/screens/product_details/components/product_image.dart';
 import 'package:furniture_shop_app/screens/product_details/components/review.dart';
-import 'package:furniture_shop_app/screens/product_details/components/similar_item.dart';
 import 'package:furniture_shop_app/screens/product_details/components/product_rate.dart';
-// import 'package:furniture_shop_app/shared_component_btw_screen.dart/container_button.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 
 class Body extends StatefulWidget {
@@ -58,9 +53,9 @@ class _BodyState extends State<Body> {
             const SizedBox(
               height: 10.0,
             ),
-            // AlsoLike(
-            //   x: product!.items,
-            // ),
+            AlsoLike(
+              productId: widget.product!.id!,
+            ),
             const SizedBox(
               height: 10.0,
             ),

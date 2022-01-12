@@ -16,10 +16,14 @@ class FurnitureRepository {
   final picker = ImagePicker();
   DiscoverModel? discoverModel;
   Future getImage({getState, context}) async {
-    final picked = await picker.getImage(source: ImageSource.gallery);
-    getState();
-    if (picked != null) {
-      profileImage = File(picked.path);
+    try {
+      final picked = await picker.getImage(source: ImageSource.gallery);
+      getState();
+      if (picked != null) {
+        profileImage = File(picked.path);
+      }
+    } catch (e) {
+      return e;
     }
   }
 
@@ -62,17 +66,18 @@ class FurnitureRepository {
     List<DiscoverModel> needs = [];
 
     Map? content;
-    await needsSnapshot.once().then((value) {
-      content = value.snapshot.value as Map<dynamic, dynamic>;
-
-      // print(content);
-    }).then((value) {});
-    content!.forEach((key, value) {
-      discoverModel = DiscoverModel.fromJson(value);
-      needs.add(discoverModel!);
-    });
+    try {
+      await needsSnapshot.once().then((value) {
+        content = value.snapshot.value as Map<dynamic, dynamic>;
+      }).then((value) {});
+      content!.forEach((key, value) {
+        discoverModel = DiscoverModel.fromJson(value);
+        needs.add(discoverModel!);
+      });
+    } catch (e) {
+      print("no data added yet");
+    }
 
     return needs;
-    // return needs;
   }
 }

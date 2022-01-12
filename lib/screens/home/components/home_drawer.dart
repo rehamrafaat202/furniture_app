@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/user_model.dart';
+import 'package:furniture_shop_app/screens/add_collection/also_like_collection.dart';
+import 'package:furniture_shop_app/screens/add_collection/collection_view.dart';
 import 'package:furniture_shop_app/screens/add_collection/discover_collection_screen.dart';
 import 'package:furniture_shop_app/screens/add_collection/best_selling_collection.dart';
 import 'package:furniture_shop_app/screens/add_collection/new_collection.dart';
@@ -12,8 +15,13 @@ class HomeDrawer extends StatelessWidget {
   String email;
   String name;
   String image;
+  UserModel data;
   HomeDrawer(
-      {required this.email, required this.name, required this.image, Key? key})
+      {required this.data,
+      required this.email,
+      required this.name,
+      required this.image,
+      Key? key})
       : super(key: key);
 
   @override
@@ -79,41 +87,12 @@ class HomeDrawer extends StatelessWidget {
                   }),
               defaultdrawerWidgets(
                   icon: Icons.queue_rounded,
-                  title: " Discover Collections",
+                  title: "Collections ",
                   press: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (conttext) => const AddDiscoverScreen()));
-                  }),
-              defaultdrawerWidgets(
-                  icon: Icons.queue_rounded,
-                  title: "Best Selling Collection ",
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (conttext) =>
-                                const BestSellingCollection()));
-                  }),
-              defaultdrawerWidgets(
-                  icon: Icons.queue_rounded,
-                  title: "Trending Collection",
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (conttext) => const TrendingCollection()));
-                  }),
-              defaultdrawerWidgets(
-                  icon: Icons.queue_rounded,
-                  title: "New Collection",
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (conttext) =>
-                                const AddCollectionScreen()));
+                            builder: (conttext) => const CollectionView()));
                   }),
               defaultdrawerWidgets(
                   icon: Icons.filter_alt_rounded,
@@ -131,7 +110,7 @@ class HomeDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CartScreen()));
+                            builder: (context) => CartScreen(data: data)));
                   }),
               defaultdrawerWidgets(
                   icon: Icons.notifications,

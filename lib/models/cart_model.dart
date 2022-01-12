@@ -22,18 +22,10 @@ class CartModel {
     img = json["img"];
     title = json["title"];
     size = json["size"];
-    // col = json["col"];
-    // txtcol = json["txtcol"];
+
     price = json["price"];
   }
   Map<String, dynamic> toJson() {
-    return {
-      "img": img,
-      "title": title,
-      "size": size,
-      // "col": col,
-      // "txtcol": txtcol,
-      "price": price
-    };
+    return {"img": img, "title": title, "size": size, "price": price};
   }
 }

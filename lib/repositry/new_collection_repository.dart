@@ -68,13 +68,17 @@ class NewCollectionRepository {
     List<NewCollectionModel> needs = [];
 
     Map? content;
-    await needsSnapshot.once().then((value) {
-      content = value.snapshot.value as Map<dynamic, dynamic>;
-    }).then((value) {});
-    content!.forEach((key, value) {
-      newCollectionModel = NewCollectionModel.fromJson(value);
-      needs.add(newCollectionModel!);
-    });
+    try {
+      await needsSnapshot.once().then((value) {
+        content = value.snapshot.value as Map<dynamic, dynamic>;
+      }).then((value) {});
+      content!.forEach((key, value) {
+        newCollectionModel = NewCollectionModel.fromJson(value);
+        needs.add(newCollectionModel!);
+      });
+    } catch (e) {
+      print(e);
+    }
 
     return needs;
   }

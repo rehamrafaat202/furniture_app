@@ -3,6 +3,7 @@ import 'package:furniture_shop_app/models/best_selling_model.dart';
 import 'package:furniture_shop_app/models/trending_model.dart';
 import 'package:furniture_shop_app/repositry/selling_repository.dart';
 import 'package:furniture_shop_app/repositry/trending_repository.dart';
+import 'package:furniture_shop_app/screens/add_collection/also_like_collection.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/add_image.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
@@ -66,9 +67,9 @@ class _TrendingCollectionState extends State<TrendingCollection> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Furniture Details",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+                Text("Add product".toUpperCase(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 25)),
                 const SizedBox(
                   height: 30,
                 ),
@@ -229,6 +230,7 @@ class _TrendingCollectionState extends State<TrendingCollection> {
                                     context: context)
                                 .then((value) {
                               setState(() {
+                                // value.id!;
                                 isloading = false;
                               });
 

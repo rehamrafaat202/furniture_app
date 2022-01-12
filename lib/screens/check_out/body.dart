@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_shop_app/models/user_model.dart';
 import 'package:furniture_shop_app/screens/check_out/pay_method.dart';
 import 'package:furniture_shop_app/screens/check_out/shipping_view.dart';
 import 'package:furniture_shop_app/screens/confirmed_screen.dart';
@@ -6,7 +7,8 @@ import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/checkout_button.dart';
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  final UserModel data;
+  const Body({required this.data, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ConfirmedScreen()));
+                      builder: (context) => ConfirmedScreen(data: data)));
             },
           ),
         ],

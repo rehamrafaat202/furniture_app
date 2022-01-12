@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:furniture_shop_app/models/discover_model.dart';
-import 'package:furniture_shop_app/models/new_collection_model.dart';
-import 'package:furniture_shop_app/repositry/discover_repository.dart';
-import 'package:furniture_shop_app/repositry/new_collection_repository.dart';
+import 'package:furniture_shop_app/models/also_like_model.dart';
+
+import 'package:furniture_shop_app/repositry/trending_repository.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/add_image.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 import 'package:furniture_shop_app/widgets/default_text_form.dart';
 
-class AddCollectionScreen extends StatefulWidget {
-  const AddCollectionScreen({Key? key}) : super(key: key);
+class AlsoLikeScreen extends StatefulWidget {
+  final String? productId;
+  const AlsoLikeScreen({required this.productId, Key? key}) : super(key: key);
 
   @override
-  _AddCollectionScreenState createState() => _AddCollectionScreenState();
+  _AlsoLikeScreenState createState() => _AlsoLikeScreenState();
 }
 
-class _AddCollectionScreenState extends State<AddCollectionScreen> {
-  var furnitureTitleController = TextEditingController();
+class _AlsoLikeScreenState extends State<AlsoLikeScreen> {
+  var furnitureNameController = TextEditingController();
+
+  var furniturePriceController = TextEditingController();
 
   void clear() {
     setState(() {});
-    furnitureTitleController.clear();
-    repo.profileImage = null;
+
+    furnitureNameController.clear();
+    furniturePriceController.clear();
+
+    repository.profileImage = null;
   }
 
   bool isloading = false;
@@ -32,10 +37,11 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
   }
 
   var formKey = GlobalKey<FormState>();
-  NewCollectionRepository repo = NewCollectionRepository();
+  TrendingRepository repository = TrendingRepository();
 
   @override
   Widget build(BuildContext context) {
+    print(widget.productId);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -52,9 +58,9 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(" ADD Collection".toUpperCase(),
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+                Text("add similar items".toUpperCase(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 25)),
                 const SizedBox(
                   height: 30,
                 ),
@@ -63,26 +69,42 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AddImage(
-                          profileImage: repo.profileImage,
-                          getImage: () => repo.getImage(getState: () {
-                                setState(() {});
-                              }).then((value) {})),
+                          profileImage: repository.profileImage,
+                          getImage: () {
+                            repository.getImage(getState: () {
+                              setState(() {});
+                            }).then((value) {});
+                          }),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  height: 35.0,
+                  height: 35,
                 ),
                 defaultFormText(
-                  control: furnitureTitleController,
-                  type: TextInputType.text,
+                  control: furnitureNameController,
+                  type: TextInputType.name,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "Furniture Title can't be Empty";
+                      return "Furniture Name can't be Empty";
                     }
                     return null;
                   },
-                  label: "Furniture Title",
+                  label: "Furniture Name",
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                defaultFormText(
+                  control: furniturePriceController,
+                  type: TextInputType.number,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Furniture Price can't be Empty";
+                    }
+                    return null;
+                  },
+                  label: "Furniture Price",
                 ),
                 const SizedBox(
                   height: 60,
@@ -103,13 +125,16 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
                               isloading = true;
                             });
 
-                            repo
-                                .addNewCollectionFurniture(
-                                    model: NewCollectionModel(
-                                        title: furnitureTitleController.text),
+                            repository
+                                .addAlsoLike(
+                                    model: AlsoLikeModel(
+                                        price: furniturePriceController.text,
+                                        productId: widget.productId,
+                                        title: furnitureNameController.text),
                                     addLoading: () => addLoading(),
                                     context: context)
                                 .then((value) {
+                              // clear();
                               setState(() {
                                 isloading = false;
                               });
@@ -117,9 +142,8 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
                               showDialog(
                                       context: context,
                                       builder: (ctx) => const AlertDialog(
-                                          title: Text(' GOOD JOB'),
                                           content: Text(
-                                              'Your Discover Furniture added successfuly ')))
+                                              ' Furniture added successfuly ')))
                                   .then((value) {
                                 clear();
                               });
@@ -128,6 +152,9 @@ class _AddCollectionScreenState extends State<AddCollectionScreen> {
                             });
                           }
                         }),
+                const SizedBox(
+                  height: 12,
+                ),
               ],
             ),
           ),

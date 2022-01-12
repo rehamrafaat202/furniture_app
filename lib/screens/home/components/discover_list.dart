@@ -53,7 +53,7 @@ class _DiscoverListState extends State<DiscoverList> {
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                    fontSize: 15),
                               ),
                             ),
                           ),

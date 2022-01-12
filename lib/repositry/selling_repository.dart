@@ -6,8 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/models/best_selling_model.dart';
-import 'package:furniture_shop_app/models/discover_model.dart';
-import 'package:furniture_shop_app/models/home_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -66,14 +64,17 @@ class SellingRepository {
     List<BestSellingModel> needs = [];
 
     Map? content;
-    await needsSnapshot.once().then((value) {
-      content = value.snapshot.value as Map<dynamic, dynamic>;
-    }).then((value) {});
-    content!.forEach((key, value) {
-      bestSellingModel = BestSellingModel.fromJson(value);
-      needs.add(bestSellingModel!);
-    });
-
+    try {
+      await needsSnapshot.once().then((value) {
+        content = value.snapshot.value as Map<dynamic, dynamic>;
+      }).then((value) {});
+      content!.forEach((key, value) {
+        bestSellingModel = BestSellingModel.fromJson(value);
+        needs.add(bestSellingModel!);
+      });
+    } catch (e) {
+      print(e);
+    }
     return needs;
   }
 }

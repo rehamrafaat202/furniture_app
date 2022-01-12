@@ -16,8 +16,6 @@ Widget defaultFormText(
         onFieldSubmitted: (s) {
           onSubmit!(s);
         },
-        // decoration: InputDecoration(
-        //     labelText: label, focusColor: Theme.of(context).primaryColor),
         decoration: InputDecoration(
           label: Text(
             label,

@@ -42,14 +42,17 @@ class CartRepository {
     List<CartModel> needs = [];
 
     Map? content;
-    await needsSnapshot.once().then((value) {
-      content = value.snapshot.value as Map<dynamic, dynamic>;
-    }).then((value) {});
-    content!.forEach((key, value) {
-      cartModel = CartModel.fromJson(value);
-      needs.add(cartModel!);
-    });
-
+    try {
+      await needsSnapshot.once().then((value) {
+        content = value.snapshot.value as Map<dynamic, dynamic>;
+      }).then((value) {});
+      content!.forEach((key, value) {
+        cartModel = CartModel.fromJson(value);
+        needs.add(cartModel!);
+      });
+    } catch (e) {
+      print(e);
+    }
     return needs;
   }
 }

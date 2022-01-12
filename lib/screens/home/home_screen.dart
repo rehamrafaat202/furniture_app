@@ -22,8 +22,8 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer:
-          HomeDrawer(email: data.email!, name: data.name!, image: data.image!),
+      drawer: HomeDrawer(
+          email: data.email!, name: data.name!, image: data.image!, data: data),
       body: const Body(),
     );
   }
