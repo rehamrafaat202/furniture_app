@@ -10,6 +10,7 @@ import 'package:furniture_shop_app/screens/home/home_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 import 'package:furniture_shop_app/widgets/default_text_form.dart';
+import 'package:provider/provider.dart';
 
 class SignupPageScreen extends StatefulWidget {
   const SignupPageScreen({Key? key}) : super(key: key);
@@ -27,7 +28,6 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
   var addressController = TextEditingController();
   bool isloading = false;
 
-  AuthRepositry repo = AuthRepositry();
 
   void addLoading() {
     setState(() {
@@ -38,6 +38,7 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
   var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    var repo = Provider.of<AuthRepositry>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -217,8 +218,9 @@ class _SignupPageScreenState extends State<SignupPageScreen> {
                                   .then((value) {
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomeScreen(data: value)),
+                                        builder: (context) => HomeScreen(
+                                           
+                                            )),
                                     (Route<dynamic> route) => false);
                               }).catchError((e) {
                                 return e;

@@ -6,6 +6,7 @@ import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/add_image.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
 import 'package:furniture_shop_app/widgets/default_text_form.dart';
+import 'package:provider/provider.dart';
 
 class AlsoLikeScreen extends StatefulWidget {
   final String? productId;
@@ -26,7 +27,7 @@ class _AlsoLikeScreenState extends State<AlsoLikeScreen> {
     furnitureNameController.clear();
     furniturePriceController.clear();
 
-    repository.profileImage = null;
+    Provider.of<TrendingRepository>(context, listen: false).profileImage = null;
   }
 
   bool isloading = false;
@@ -37,11 +38,11 @@ class _AlsoLikeScreenState extends State<AlsoLikeScreen> {
   }
 
   var formKey = GlobalKey<FormState>();
-  TrendingRepository repository = TrendingRepository();
+  // TrendingRepository repository = TrendingRepository();
+  List<AlsoLikeModel> also = [];
 
   @override
   Widget build(BuildContext context) {
-    print(widget.productId);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -69,9 +70,13 @@ class _AlsoLikeScreenState extends State<AlsoLikeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AddImage(
-                          profileImage: repository.profileImage,
+                          profileImage: Provider.of<TrendingRepository>(context,
+                                  listen: false)
+                              .profileImage,
                           getImage: () {
-                            repository.getImage(getState: () {
+                            Provider.of<TrendingRepository>(context,
+                                    listen: false)
+                                .getImage(getState: () {
                               setState(() {});
                             }).then((value) {});
                           }),
@@ -125,7 +130,8 @@ class _AlsoLikeScreenState extends State<AlsoLikeScreen> {
                               isloading = true;
                             });
 
-                            repository
+                            Provider.of<TrendingRepository>(context,
+                                    listen: false)
                                 .addAlsoLike(
                                     model: AlsoLikeModel(
                                         price: furniturePriceController.text,
@@ -134,6 +140,8 @@ class _AlsoLikeScreenState extends State<AlsoLikeScreen> {
                                     addLoading: () => addLoading(),
                                     context: context)
                                 .then((value) {
+                              // Provider.of<TrendingRepository>(context, listen: false).also.add(value);
+
                               // clear();
                               setState(() {
                                 isloading = false;

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/models/user_model.dart';
+import 'package:furniture_shop_app/repositry/auth_repositry.dart';
 import 'package:furniture_shop_app/screens/home/home_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
+import 'package:provider/provider.dart';
 
 class ConfirmedScreen extends StatelessWidget {
-  final UserModel data;
-  const ConfirmedScreen({required this.data, Key? key}) : super(key: key);
+  const ConfirmedScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,18 +45,22 @@ class ConfirmedScreen extends StatelessWidget {
               style: TextStyle(color: Colors.black38, fontSize: 18),
               textAlign: TextAlign.center,
             )),
-            ContainerButton(
-                color: blackColor,
-                txtColor: Colors.white,
-                title: "Continue Shopping",
-                submit: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomeScreen(
-                                data: data,
-                              )));
-                }),
+            Consumer<AuthRepositry>(
+              builder: (context, value, child) {
+                return ContainerButton(
+                    color: blackColor,
+                    txtColor: Colors.white,
+                    title: "Continue Shopping",
+                    submit: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen(
+                                  // data: value.data!,
+                                  )));
+                    });
+              },
+            ),
             const SizedBox(
               height: 100,
             ),

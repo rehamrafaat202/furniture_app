@@ -12,10 +12,11 @@ import 'package:furniture_shop_app/models/trending_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-class TrendingRepository {
+class TrendingRepository with ChangeNotifier {
   TrendingRepository();
   File? profileImage;
   AlsoLikeModel? alsoLikeModel;
+  List<AlsoLikeModel> also = [];
 
   final picker = ImagePicker();
   TrendingModel? trendingModel;
@@ -25,6 +26,7 @@ class TrendingRepository {
     if (picked != null) {
       profileImage = File(picked.path);
     }
+    notifyListeners();
   }
 
   Future<TrendingModel> addTrendingFurniture(
@@ -112,7 +114,7 @@ class TrendingRepository {
               title: const Text(' Ops! Upload Furniture Failed'),
               content: Text('${e.message}')));
     }
-
+    notifyListeners();
     return alsoLikeModel!;
   }
 
@@ -135,11 +137,12 @@ class TrendingRepository {
       content!.forEach((key, value) {
         alsoLikeModel = AlsoLikeModel.fromJson(value);
         needs.add(alsoLikeModel!);
+        also = needs;
+        notifyListeners();
       });
     } catch (e) {
       print("no data add yet");
     }
-
     return needs;
   }
 }

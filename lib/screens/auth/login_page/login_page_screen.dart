@@ -10,6 +10,7 @@ import 'package:furniture_shop_app/style.dart';
 
 import 'package:furniture_shop_app/widgets/container_button.dart';
 import 'package:furniture_shop_app/widgets/default_text_form.dart';
+import 'package:provider/provider.dart';
 
 class LoginPageScreen extends StatefulWidget {
   const LoginPageScreen({Key? key}) : super(key: key);
@@ -31,7 +32,8 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
     });
   }
 
-  AuthRepositry repo = AuthRepositry();
+  // AuthRepositry repo = AuthRepositry();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +101,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                               setState(() {
                                 isloading = true;
                               });
-                              repo
+                              Provider.of<AuthRepositry>(context, listen: false)
                                   .userLogin(
                                       context: context,
                                       addLoading: () => addLoading(),
@@ -108,8 +110,10 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                   .then((value) {
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomeScreen(data: value)),
+                                        builder: (context) => HomeScreen(
+                                           
+
+                                            )),
                                     (Route<dynamic> route) => false);
                               }).catchError((e) {
                                 return e;

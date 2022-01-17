@@ -8,7 +8,9 @@ import 'package:furniture_shop_app/screens/product_details/components/product_de
 import 'package:furniture_shop_app/screens/product_details/components/product_image.dart';
 import 'package:furniture_shop_app/screens/product_details/components/review.dart';
 import 'package:furniture_shop_app/screens/product_details/components/product_rate.dart';
+import 'package:furniture_shop_app/services/cart_provider.dart';
 import 'package:furniture_shop_app/widgets/container_button.dart';
+import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
   const Body({
@@ -23,7 +25,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  CartRepository repository = CartRepository();
+  // CartRepository repository = CartRepository();
   bool isloading = false;
   void addLoading() {
     setState(() {
@@ -81,7 +83,7 @@ class _BodyState extends State<Body> {
               child: ContainerButton(
                   title: "Add to cart".toUpperCase(),
                   submit: () async {
-                    await repository
+                    await Provider.of<CartProvider>(context, listen: false)
                         .addToCart(
                             context: context,
                             model: CartModel(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_shop_app/models/user_model.dart';
+import 'package:furniture_shop_app/repositry/auth_repositry.dart';
 import 'package:furniture_shop_app/screens/add_collection/also_like_collection.dart';
 import 'package:furniture_shop_app/screens/add_collection/collection_view.dart';
 import 'package:furniture_shop_app/screens/add_collection/discover_collection_screen.dart';
@@ -10,19 +11,10 @@ import 'package:furniture_shop_app/screens/auth/welcome_screen.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/screens/cart/cart_screen.dart';
 import 'package:furniture_shop_app/screens/filters/filter_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeDrawer extends StatelessWidget {
-  String email;
-  String name;
-  String image;
-  UserModel data;
-  HomeDrawer(
-      {required this.data,
-      required this.email,
-      required this.name,
-      required this.image,
-      Key? key})
-      : super(key: key);
+  HomeDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +36,40 @@ class HomeDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10.0, left: 10),
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundColor: const Color(0xffEDE4EB),
-                    backgroundImage: NetworkImage(image),
-                  ),
+                Consumer<AuthRepositry>(
+                  builder: (context, value, child) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10.0, left: 10),
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: const Color(0xffEDE4EB),
+                        backgroundImage: NetworkImage(value.data!.image!),
+                      ),
+                    );
+                  },
                 ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: Theme.of(context).textTheme.headline6,
+                      Consumer<AuthRepositry>(
+                        builder: (context, value, child) {
+                          return Text(
+                            value.data!.name!,
+                            style: Theme.of(context).textTheme.headline6,
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 7.0,
                       ),
-                      Text(
-                        email,
-                        style: const TextStyle(color: Colors.grey),
+                      Consumer<AuthRepositry>(
+                        builder: (context, value, child) {
+                          return Text(
+                            value.data!.email!,
+                            style: const TextStyle(color: Colors.grey),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -110,7 +114,7 @@ class HomeDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CartScreen(data: data)));
+                            builder: (context) => const CartScreen()));
                   }),
               defaultdrawerWidgets(
                   icon: Icons.notifications,

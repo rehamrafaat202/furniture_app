@@ -7,8 +7,7 @@ import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/widgets/checkout_button.dart';
 
 class Body extends StatelessWidget {
-  final UserModel data;
-  const Body({required this.data, Key? key}) : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,7 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ConfirmedScreen(data: data)));
+                      builder: (context) => const ConfirmedScreen()));
             },
           ),
         ],

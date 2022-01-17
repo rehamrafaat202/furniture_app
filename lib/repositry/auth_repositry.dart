@@ -9,7 +9,7 @@ import 'package:furniture_shop_app/models/user_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 
-class AuthRepositry {
+class AuthRepositry with ChangeNotifier {
   AuthRepositry();
   UserModel? data;
   File? profileImage;
@@ -40,7 +40,7 @@ class AuthRepositry {
         DatabaseEvent event = await ref.once();
         final json = event.snapshot.value as Map<dynamic, dynamic>;
         data = UserModel.fromJson(json);
-
+        notifyListeners();
         return value;
       });
     } on FirebaseAuthException catch (e) {
@@ -51,7 +51,7 @@ class AuthRepositry {
               title: const Text(' Ops! Registration Failed'),
               content: Text('${e.message}')));
     }
-
+    // notifyListeners();
     return data!;
   }
 
@@ -67,7 +67,7 @@ class AuthRepositry {
         DatabaseEvent event = await ref.once();
         final json = event.snapshot.value as Map<dynamic, dynamic>;
         data = UserModel.fromJson(json);
-
+        notifyListeners();
         return value;
       });
     } on FirebaseAuthException catch (e) {
@@ -89,5 +89,6 @@ class AuthRepositry {
     if (picked != null) {
       profileImage = File(picked.path);
     }
+    notifyListeners();
   }
 }

@@ -3,25 +3,22 @@ import 'package:furniture_shop_app/models/cart_model.dart';
 import 'package:furniture_shop_app/models/user_model.dart';
 import 'package:furniture_shop_app/repositry/cart_repository.dart';
 import 'package:furniture_shop_app/screens/check_out/check_out_screen.dart';
+import 'package:furniture_shop_app/services/cart_provider.dart';
 import 'package:furniture_shop_app/style.dart';
 import 'package:furniture_shop_app/screens/cart/components/all_cart.dart';
 import 'package:furniture_shop_app/widgets/checkout_button.dart';
+import 'package:provider/provider.dart';
 
-class Body extends StatefulWidget {
-  final UserModel data;
-  const Body({required this.data, Key? key}) : super(key: key);
+class Body extends StatelessWidget {
+  const Body({Key? key}) : super(key: key);
 
-  @override
-  State<Body> createState() => _BodyState();
-}
+  // CartRepository repository = CartRepository();
 
-class _BodyState extends State<Body> {
-  CartRepository repository = CartRepository();
-  List<CartModel> cart = [];
   @override
   Widget build(BuildContext context) {
+    List<CartModel> cart = [];
     return FutureBuilder(
-        future: repository.displayCart(),
+        future: Provider.of<CartProvider>(context, listen: false).displayCart(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -86,7 +83,7 @@ class _BodyState extends State<Body> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          CheckOutScreen(data: widget.data)));
+                                          const CheckOutScreen()));
                             },
                           )
                         ],

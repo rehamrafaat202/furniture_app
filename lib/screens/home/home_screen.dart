@@ -4,8 +4,8 @@ import 'package:furniture_shop_app/screens/home/components/body.dart';
 import 'package:furniture_shop_app/screens/home/components/home_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
-  UserModel data;
-  HomeScreen({required this.data, Key? key}) : super(key: key);
+  // UserModel data;
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: HomeDrawer(
-          email: data.email!, name: data.name!, image: data.image!, data: data),
+      drawer: HomeDrawer(),
       body: const Body(),
     );
   }

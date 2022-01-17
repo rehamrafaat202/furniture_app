@@ -3,6 +3,7 @@ import 'package:furniture_shop_app/models/also_like_model.dart';
 
 import 'package:furniture_shop_app/repositry/trending_repository.dart';
 import 'package:furniture_shop_app/style.dart';
+import 'package:provider/provider.dart';
 
 class AlsoLike extends StatefulWidget {
   String? productId;
@@ -13,14 +14,15 @@ class AlsoLike extends StatefulWidget {
 }
 
 class _AlsoLikeState extends State<AlsoLike> {
-  TrendingRepository repository = TrendingRepository();
+  // TrendingRepository repository = TrendingRepository();
 
   List<AlsoLikeModel> also = [];
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: repository.displayAlsoLike(productId: widget.productId),
+        future: Provider.of<TrendingRepository>(context, listen: false)
+            .displayAlsoLike(productId: widget.productId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
